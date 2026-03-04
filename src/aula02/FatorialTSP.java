@@ -1,5 +1,5 @@
 public class FatorialTSP {
-    static int N = 16; // Número de cidades
+    static int N = 4; // Número de cidades
     static int[][] distancias = new int[N][N];
     static int menorCustoTotal = Integer.MAX_VALUE;
     static long rotasTestadas = 0;
