@@ -10,11 +10,15 @@ public class Loteria {
         Random random = new Random();
 
         final double PREMIO_TOTAL = 1000000.00;
-        final int NUM_APOSTADORES = 4;
+        final int NUM_APOSTADORES = 10;
         final int NUMEROS_POR_APOSTA = 4;
+        final int QTD_NUMEROS_SORTEADOS = 3;
         
         String[] apostadores = new String[NUM_APOSTADORES];
-        int[][] apostas = new int[NUM_APOSTADORES][NUMEROS_POR_APOSTA]; 
+        int[][] apostas = new int[NUM_APOSTADORES][NUMEROS_POR_APOSTA];
+        int[] sorteados = new int[QTD_NUMEROS_SORTEADOS];
+        int[] acertosPorApostador = new int[NUM_APOSTADORES];
+        int qtdGanhadores = 0;
 
         System.out.println("""
                 ===================================
@@ -27,12 +31,12 @@ public class Loteria {
                     - Ganha quem acertar pelo menos 2 dos números sorteados.
                     - O prêmio é dividido igualmente entre os ganhadores.
                     - Se ninguém ganhar, o prêmio acumula para a próxima rodada.
-                    -----------------------------------
-                    Vamos começar as apostas!
-                    -----------------------------------
+                -----------------------------------
+                Vamos começar as apostas!
+                -----------------------------------
                 """);
         
-        // COLETAR AS APOSTAS
+
         for (int i = 0; i < NUM_APOSTADORES; i++) {
             System.out.print("Nome do apostador " + (i + 1) + ": ");
             apostadores[i] = scanner.nextLine().trim();
@@ -55,7 +59,7 @@ public class Loteria {
                 }
                 apostas[i][j] = numEscolhido;
             }
-            scanner.nextLine(); // Limpa buffer
+            scanner.nextLine();
 
 
             bubbleSort(apostas[i]);
@@ -64,18 +68,14 @@ public class Loteria {
             System.out.println("-----------------------------------");
         }
 
-        // REALIZAR O SORTEIO
-        System.out.println("\n REALIZANDO O SORTEIO ");
-        int[] sorteados = new int[3];
 
-        for (int i = 0; i < sorteados.length; i++) {
+        System.out.println("\nREALIZANDO O SORTEIO...");
+
+        for (int i = 0; i < QTD_NUMEROS_SORTEADOS; i++) {
             int numSorteado;
-            while (true) {
-                numSorteado = random.nextInt(10); 
-                if (!jaExiste(sorteados, i, numSorteado)) {
-                    break;
-                }
-            }
+            do {
+                numSorteado = random.nextInt(10);
+            } while (jaExiste(sorteados, i, numSorteado));
             sorteados[i] = numSorteado;
         }
         
@@ -85,9 +85,6 @@ public class Loteria {
         System.out.println("===================================\n");
 
         // APURAÇÃO E PREMIAÇÃO
-        int[] acertosPorApostador = new int[NUM_APOSTADORES];
-        int qtdGanhadores = 0;
-
         for (int i = 0; i < NUM_APOSTADORES; i++) {
             int acertos = 0;
             for (int j = 0; j < NUMEROS_POR_APOSTA; j++) {
@@ -105,12 +102,13 @@ public class Loteria {
 
         System.out.println("RESULTADO FINAL:");
         if (qtdGanhadores == 0) {
-            System.out.println("A loteria acumulou! Ninguém acertou pelo menos 2 números.");
+            System.out.println("A loteria acumulou!!! Ninguém acertou pelo menos 2 números.");
         } else {
             double premioDividido = PREMIO_TOTAL / qtdGanhadores;
             System.out.printf("""
-                Tivemos %d ganhador(es)! 
-                Cada um leva R$ %.2f\n\n
+                Tivemos %d ganhador(es)!
+                Levando uma bagatela de R$ %.2f (cada)
+                
                 """,
             qtdGanhadores, premioDividido);
 
