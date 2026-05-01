@@ -48,14 +48,10 @@ public class LanchoneteApp {
 
     
     private static void atenderPedido() {
-        Pedido pedido = (Pedido) fila.dequeue();
-        if (pedido != null) {
-            System.out.println("Atendendo: " + pedido);
-            System.out.println("Itens do Pedido:");
-            for (IItemPedido item : pedido.getItens()) {
-                System.out.println(" - " + item);
-            }
-            System.out.printf("Total: R$ %.2f\n", pedido.getValorTotal());
+        if (!fila.isEmpty()) {
+            Pedido pedido = (Pedido) fila.dequeue();
+            System.out.println("Próximo pedido para atendimento:");
+            System.out.println(pedido.gerarResumoDetalhado());
         } else {
             System.out.println("Nenhum pedido na fila.");
         }
