@@ -29,10 +29,16 @@ public class LanchoneteApp {
             System.out.println("\n--- MENU ---");
 
             for (int i = 1; i <= 12; i++) {
+                switch(i) {
+                    case 1 -> System.out.println("\n--- LANCHES ---");
+                    case 6 -> System.out.println("\n--- REFRIGERANTES ---");
+                    case 8 -> System.out.println("\n--- BATATAS FRITAS ---");
+                    case 10 -> System.out.println("\n--- SUCOS ---");
+                }
                 IItemPedido item = mapearItem(i, 1);
                 System.out.printf("%2d. %-15s R$ %.2f\n", i, item.getNome(), item.getValorUnitario());
             }
-            System.out.println("0. Finalizar Pedido");
+            System.out.println("\n0. Finalizar Pedido");
             
             itemOpcao = Integer.parseInt(sc.nextLine());
             if (itemOpcao > 0) {
@@ -45,12 +51,12 @@ public class LanchoneteApp {
         fila.enqueue(p);
         System.out.println("Pedido adicionado com sucesso!");
     }
-
+    
     
     private static void atenderPedido() {
         if (!fila.isEmpty()) {
             Pedido pedido = (Pedido) fila.dequeue();
-            System.out.println("Próximo pedido para atendimento:");
+            System.out.println("Atendendo pedido:");
             System.out.println(pedido.gerarResumoDetalhado());
         } else {
             System.out.println("Nenhum pedido na fila.");
